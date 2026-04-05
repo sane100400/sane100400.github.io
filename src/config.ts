@@ -12,7 +12,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "INTERNET OVERDOSE",
 	lang: "ko", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
-		hue: 330, // Pastel pink hue for NGO aesthetic
+		hue: 350, // Soft pink hue for NGO aesthetic
 		fixed: true, // Fix the pastel pink theme
 	},
 	banner: {
@@ -53,7 +53,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "assets/images/avatar.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "sane100400",
 	bio: "// system_log: online",
 	links: [

@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Roboto", "sans-serif", ...defaultTheme.fontFamily.sans],
-        pixel: ["'DotGothic16'", "monospace"],
+        pixel: ["'Galmuri11'", "'DotGothic16'", "monospace"],
       },
     },
   },

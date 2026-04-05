@@ -1,11 +1,11 @@
 .custom-md {
     h1 {
         @apply text-3xl;
-        font-family: 'Jua', sans-serif;
+        font-family: 'Galmuri11', 'DotGothic16', monospace;
     }
 
     h2, h3, h4, h5, h6 {
-        font-family: 'Jua', sans-serif;
+        font-family: 'Galmuri11', 'DotGothic16', monospace;
     }
 
     h1, h2, h3, h4, h5, h6 {

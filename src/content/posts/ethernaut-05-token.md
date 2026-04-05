@@ -1,6 +1,6 @@
 ---
 title: "The Ethernaut : Token"
-published: 2025-06-07
+published: 2026-02-28
 tags: [Blockchain, Solidity, Ethernaut]
 category: Smart Contract Security
 draft: false

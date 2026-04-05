@@ -11,9 +11,7 @@ const currentYear = new Date().getFullYear();
 <div class="transition rounded-lg mb-12 flex flex-col items-center justify-center px-6" style="font-family: 'Galmuri11', 'DotGothic16', monospace;">
     <div class="transition text-50 text-xs text-center leading-relaxed">
         <span class="text-[var(--primary)]">C:\Users\{profileConfig.name}&gt;</span> system_info<br>
-        &copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name} /
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('rss.xml')}>RSS</a> /
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('sitemap-index.xml')}>Sitemap</a><br>
+        &copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name}<br>
         <span class="text-black/30 dark:text-white/30">powered_by</span>
         <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> +
         <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a>

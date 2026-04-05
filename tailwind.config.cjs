@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["'Galmuri11'", "Roboto", "sans-serif", ...defaultTheme.fontFamily.sans],
+        sans: ["'Pretendard Variable'", "Pretendard", "Roboto", "sans-serif", ...defaultTheme.fontFamily.sans],
         pixel: ["'Galmuri11'", "'DotGothic16'", "monospace"],
       },
     },

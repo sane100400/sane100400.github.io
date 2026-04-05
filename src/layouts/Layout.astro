@@ -112,7 +112,7 @@ const bannerOffset =
 		))}
 
 		<!-- Set the theme before the page is rendered to avoid a flash -->
-		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue}}>
+		<script is:inline define:vars={{DEFAULT_THEME, LIGHT_MODE, DARK_MODE, AUTO_MODE, BANNER_HEIGHT_EXTEND, PAGE_WIDTH, configHue, isHueFixed: siteConfig.themeColor.fixed}}>
 			// Load the theme from local storage
 			const theme = localStorage.getItem('theme') || DEFAULT_THEME;
 			switch (theme) {
@@ -130,8 +130,8 @@ const bannerOffset =
 					}
 			}
 
-			// Load the hue from local storage
-			const hue = localStorage.getItem('hue') || configHue;
+			// Load the hue - use config value when fixed, otherwise check localStorage
+			const hue = isHueFixed ? configHue : (localStorage.getItem('hue') || configHue);
 			document.documentElement.style.setProperty('--hue', hue);
 
 			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text

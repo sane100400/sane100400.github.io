@@ -14,6 +14,11 @@ export function getDefaultHue(): number {
 }
 
 export function getHue(): number {
+	// When theme color is fixed, always use the config value
+	const configCarrier = document.getElementById("config-carrier");
+	if (configCarrier?.dataset.hueFixed === "true") {
+		return getDefaultHue();
+	}
 	const stored = localStorage.getItem("hue");
 	return stored ? Number.parseInt(stored, 10) : getDefaultHue();
 }

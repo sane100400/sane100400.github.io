@@ -89,7 +89,7 @@ onMount(async () => {
     {#each groups as group}
         <div>
             <div class="flex flex-row w-full items-center h-[3.75rem]">
-                <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right text-75">
+                <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right text-75" style="font-family: 'Galmuri11', 'DotGothic16', monospace;">
                     {group.year}
                 </div>
                 <div class="w-[15%] md:w-[10%]">
@@ -98,7 +98,7 @@ onMount(async () => {
                   -outline-offset-[2px] z-50 outline-3"
                     ></div>
                 </div>
-                <div class="w-[70%] md:w-[80%] transition text-left text-50">
+                <div class="w-[70%] md:w-[80%] transition text-left text-50" style="font-family: 'Galmuri11', 'DotGothic16', monospace;">
                     {group.posts.length} {i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount)}
                 </div>
             </div>

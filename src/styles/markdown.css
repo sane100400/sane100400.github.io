@@ -1,6 +1,4 @@
 .custom-md {
-    font-family: 'Pretendard Variable', Pretendard, sans-serif;
-
     h1 {
         @apply text-3xl;
         font-family: 'Jua', sans-serif;

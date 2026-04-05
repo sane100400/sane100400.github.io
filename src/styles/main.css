@@ -9,7 +9,7 @@
         @apply transition;
     }
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Galmuri11', 'DotGothic16', sans-serif;
+        font-family: 'Jua', 'Galmuri11', sans-serif;
     }
     .card-shadow {
         @apply drop-shadow-[0_2px_6px_rgba(200,150,180,0.12)]

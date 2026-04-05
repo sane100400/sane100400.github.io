@@ -1,6 +1,8 @@
 # About Me
 
-**김현경 (Hyunkyung Kim)** | Cyber Security
+![Introduce](/introduce.jpg)
+
+**김현경 (HyeonGyeong Kim)** | Cyber Security
 
 고려대학교 스마트보안학부 / 개인정보보호융합전공 (2022.03 ~ 2026.08 졸업 예정, 학점 3.95)
 

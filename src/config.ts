@@ -16,8 +16,8 @@ export const siteConfig: SiteConfig = {
 		fixed: true, // Fix the pastel pink theme
 	},
 	banner: {
-		enable: false,
-		src: "assets/images/demo-banner.png",
+		enable: true,
+		src: "assets/images/header.jpg",
 		position: "center",
 		credit: {
 			enable: false,

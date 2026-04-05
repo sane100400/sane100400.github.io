@@ -3,12 +3,16 @@
 @layer components {
     .card-base {
         @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
+        border: 1.5px solid var(--window-border);
     }
     h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, blockquote, code, pre, table, th, td, strong {
         @apply transition;
     }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'DotGothic16', 'Roboto', sans-serif;
+    }
     .card-shadow {
-        @apply drop-shadow-[0_2px_4px_rgba(0,0,0,0.005)]
+        @apply drop-shadow-[0_2px_6px_rgba(200,150,180,0.12)]
     }
     .expand-animation {
         @apply relative before:ease-out before:transition active:bg-none hover:before:bg-[var(--btn-plain-bg-hover)] active:before:bg-[var(--btn-plain-bg-active)] z-0
@@ -21,7 +25,8 @@
         @apply transition rounded-md p-1.5 -m-1.5 expand-animation;
     }
     .float-panel {
-        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none
+        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none;
+        border: 1.5px solid var(--window-border);
     }
     .float-panel-closed {
         @apply -translate-y-1 opacity-0 pointer-events-none
@@ -52,7 +57,8 @@
     }
     .btn-regular {
         @apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
-        text-[var(--btn-content)] dark:text-white/75
+        text-[var(--btn-content)] dark:text-white/75;
+        border: 1px solid var(--window-border);
     }
 
     .link-underline {
@@ -110,6 +116,35 @@
     .btn-regular-dark.success {
         @apply bg-[oklch(0.75_0.14_var(--hue))] dark:bg-[oklch(0.75_0.14_var(--hue))]
     }
+
+    /* ===== NGO Window Decorations ===== */
+    .window-titlebar {
+        @apply flex items-center gap-1.5 px-3 py-1.5 text-xs;
+        background: var(--window-titlebar);
+        border-bottom: 1px solid var(--window-border);
+        font-family: 'DotGothic16', monospace;
+    }
+    .window-dots {
+        @apply flex gap-1.5 mr-2;
+    }
+    .window-dot {
+        @apply w-2.5 h-2.5 rounded-full;
+    }
+    .window-dot-close {
+        background: var(--window-dot-close);
+    }
+    .window-dot-minimize {
+        background: var(--window-dot-minimize);
+    }
+    .window-dot-maximize {
+        background: var(--window-dot-maximize);
+    }
+    .window-title {
+        @apply text-black/40 dark:text-white/40 select-none;
+        font-family: 'DotGothic16', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+    }
 }
 
 .custom-md img, #post-cover img {
@@ -149,4 +184,9 @@
         color: var(--codeblock-bg);
     }
   }
+}
+
+/* Pixel cursor on interactive elements */
+.btn-plain, .btn-regular, .btn-card, a {
+    cursor: pointer;
 }

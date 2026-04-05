@@ -85,16 +85,7 @@ onMount(async () => {
 });
 </script>
 
-<div class="card-base">
-    <div class="window-titlebar" style="font-family: 'Galmuri9', 'DotGothic16', monospace;">
-        <span class="window-dots">
-            <span class="window-dot window-dot-close"></span>
-            <span class="window-dot window-dot-minimize"></span>
-            <span class="window-dot window-dot-maximize"></span>
-        </span>
-        <span class="window-title">archive.dat</span>
-    </div>
-    <div class="px-8 py-6">
+<div class="px-8 py-6">
     {#each groups as group}
         <div>
             <div class="flex flex-row w-full items-center h-[3.75rem]">
@@ -158,5 +149,4 @@ onMount(async () => {
             {/each}
         </div>
     {/each}
-    </div>
 </div>

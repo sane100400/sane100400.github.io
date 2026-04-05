@@ -1,6 +1,6 @@
 ---
 title: "Solana 핫월렛 개인키 탈취 취약점 (Ed25519 Shared-R) 분석"
-published: 2026-02-28
+published: 2026-02-05
 tags: [Blockchain, Solana, Cryptography, Ed25519]
 category: Blockchain Security
 draft: false

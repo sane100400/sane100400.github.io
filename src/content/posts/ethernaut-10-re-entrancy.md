@@ -1,6 +1,6 @@
 ---
 title: "The Ethernaut : Re-entrancy"
-published: 2026-02-28
+published: 2025-12-04
 tags: [Blockchain, Solidity, Ethernaut]
 category: Smart Contract Security
 draft: false

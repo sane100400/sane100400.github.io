@@ -1,6 +1,6 @@
 ---
 title: "The Ethernaut : Fallback"
-published: 2026-02-28
+published: 2025-12-02
 tags: [Blockchain, Solidity, Ethernaut]
 category: Smart Contract Security
 draft: false

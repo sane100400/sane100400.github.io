@@ -1,6 +1,6 @@
 ---
 title: "RED RACCOON 실전 Threat Intelligence 추적 챌린지"
-published: 2026-02-28
+published: 2025-12-17
 tags: [CTF, Threat Intelligence, Phishing, OSINT]
 category: Cybersecurity
 draft: false

@@ -24,7 +24,8 @@ let links: NavBarLink[] = navBarConfig.links.map(
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
+        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}
+        style="font-family: 'Galmuri11', 'DotGothic16', monospace;">
         <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
             <div class="flex flex-row text-[var(--primary)] items-center text-md">
                 <span class="window-dots mr-2">
@@ -32,7 +33,7 @@ let links: NavBarLink[] = navBarConfig.links.map(
                     <span class="window-dot window-dot-minimize"></span>
                     <span class="window-dot window-dot-maximize"></span>
                 </span>
-                <span class="font-pixel" style="font-family: 'Galmuri11', 'DotGothic16', monospace;">{siteConfig.title}</span>
+                {siteConfig.title}
             </div>
         </a>
         <div class="hidden md:flex">

@@ -85,7 +85,16 @@ onMount(async () => {
 });
 </script>
 
-<div class="card-base px-8 py-6">
+<div class="card-base">
+    <div class="window-titlebar" style="font-family: 'Galmuri9', 'DotGothic16', monospace;">
+        <span class="window-dots">
+            <span class="window-dot window-dot-close"></span>
+            <span class="window-dot window-dot-minimize"></span>
+            <span class="window-dot window-dot-maximize"></span>
+        </span>
+        <span class="window-title">archive.dat</span>
+    </div>
+    <div class="px-8 py-6">
     {#each groups as group}
         <div>
             <div class="flex flex-row w-full items-center h-[3.75rem]">
@@ -132,6 +141,7 @@ onMount(async () => {
                                 class="w-[70%] md:max-w-[65%] md:w-[65%] text-left font-bold
                      group-hover:translate-x-1 transition-all group-hover:text-[var(--primary)]
                      text-75 pr-8 whitespace-nowrap overflow-ellipsis overflow-hidden"
+                                style="font-family: 'Galmuri11', 'DotGothic16', monospace;"
                         >
                             {post.data.title}
                         </div>
@@ -148,4 +158,5 @@ onMount(async () => {
             {/each}
         </div>
     {/each}
+    </div>
 </div>

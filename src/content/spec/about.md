@@ -40,12 +40,16 @@
 
 Monero 네트워크에서 Qubic 마이닝 그룹의 Selfish Mining 행위를 정량적으로 분석. 실제 블록체인 풀에 참여하여 데이터를 수집하고, orphan 블록 패턴 추적, AWS 기반 대시보드 배포, 논문 형식 보고서 작성.
 
+- [논문 보기 (arXiv)](https://arxiv.org/abs/2512.01437)
+
 ::github{repo="shlee-lab/Qubic-Monero-Selfish-Mining-Analysis"}
 
 ### 보안 메신저 통합 평가 프레임워크
 > 2025.05 ~ 2025.08
 
 Signal, Telegram, WhatsApp, KakaoTalk, Delta Chat의 보안성-사용성-프라이버시를 N2SF 기반으로 통합 평가. 조직별(정부/기업/민간) 메신저 선택 가이드라인 작성. **한국정보처리학회 논문지 수락 (2025.10)**
+
+- [논문 보기 (한국정보처리학회)](https://tkips.kips.or.kr/digital-library/103418)
 
 ### 2024 종합해킹실습 세미나
 > 2024.09 ~ 2024.12

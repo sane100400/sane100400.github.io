@@ -1,5 +1,5 @@
 ---
-title: "Qwiklabs GSP1151 - Vertex AI 프롬프트 디자인 베스트 프랙티스 정리"
+title: "Qwiklabs GSP1151 - Vertex AI Prompt Design Best Practices"
 published: 2026-05-03
 tags: [GCP, Vertex AI, Gemini, Qwiklabs, Prompt Engineering]
 category: Cloud
@@ -7,7 +7,7 @@ draft: false
 ---
 
 Google Skills의 **GSP1151 - Generative AI with Vertex AI: Prompt Design** 랩 정리.
-이 랩은 챌린지 랩과 달리 **INSERT 빈칸이 거의 없고 노트북 모든 셀을 위에서부터 실행만 하면 9개 체크포인트가 자동 채점**되는 워밍업 랩이다 (30분, 무료). 그래서 이 글은 "정답 풀이" 가 아니라 **노트북에서 다루는 프롬프트 엔지니어링 베스트 프랙티스 5가지**를 정리한 노트.
+이 랩은 챌린지 랩과 달리 **INSERT 빈칸이 거의 없고 노트북 모든 셀을 위에서부터 실행만 하면 9개 체크포인트가 자동 채점**되는 워밍업 랩이다 (30분, 무료). 그래서 이 글은 "정답 풀이" 가 아니라 **노트북에서 다루는 프롬프트 엔지니어링 best practices**를 정리한 노트.
 
 핵심 환경:
 

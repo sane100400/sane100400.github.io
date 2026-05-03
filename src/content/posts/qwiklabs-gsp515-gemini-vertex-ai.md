@@ -49,23 +49,7 @@ gcloud services enable aiplatform.googleapis.com notebooks.googleapis.com comput
 curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" "https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL_ID}:generateContent" -d '{"contents":[{"role":"user","parts":[{"text":"Why is the sky blue?"}]}]}'
 ```
 
-### 함정 1 — `bad substitution`
-
-랩 페이지의 curl 예시를 그대로 복사하면 `${MODEL_ID}` 와 `:generateContent` 사이에 **줄바꿈**이 들어가서 bash가 변수명을 깨먹는다.
-
-```
--bash: https://...${MODEL_ID
-  }:generateContent: bad substitution
-```
-
-**해결:** 백슬래시 줄바꿈 다 제거하고 한 줄로 통째 실행. 또는 URL을 변수에 먼저 담기:
-
-```bash
-URL="https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL_ID}:generateContent"
-curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" "$URL" -d '{"contents":[{"role":"user","parts":[{"text":"Why is the sky blue?"}]}]}'
-```
-
-### 함정 2 — 채점이 안 된다 (가장 큰 삽질)
+### 함정 1 — 채점이 안 된다 (가장 큰 삽질)
 
 호출 성공 (`finishReason: STOP`) 했는데 채점기가 점수 0점만 띄움. Audit log 확인하면 호출 기록은 정상:
 
@@ -79,7 +63,7 @@ gcloud logging read 'protoPayload.serviceName="aiplatform.googleapis.com"' --lim
 
 > 교훈: 채점기가 5분 넘게 안 잡으면 그냥 랩 종료/재시작이 답. 시간 더 안 버린다.
 
-### 함정 3 — `Enable required API` 체크가 따로 안 잡힘
+### 함정 2 — `Enable required API` 체크가 따로 안 잡힘
 
 콘솔에서 Vertex AI API만 켜면 충분할 줄 알았지만 채점기는 추가로 보는 게 있음. 한 줄로:
 
@@ -121,7 +105,7 @@ get_current_weather_func = FunctionDeclaration(
 weather_tool = Tool(function_declarations=[get_current_weather_func])
 ```
 
-### 함정 4 — 커널 사망 / `AttributeError: should_use_client_cert`
+### 함정 3 — 커널 사망 / `AttributeError: should_use_client_cert`
 
 `from google import genai` 단계에서 커널이 죽거나 mtls 에러 뜸.
 

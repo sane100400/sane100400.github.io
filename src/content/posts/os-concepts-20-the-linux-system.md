@@ -1,17 +1,54 @@
 ---
 title: "공룡책 운영체제 정리 20: Linux 시스템"
 published: 2026-05-11
-description: "Operating System Concepts 10판 Ch.20 Linux 시스템 핵심 개념 의미와 기능 정리"
+description: "Operating System Concepts 10판 Ch.20 Linux 시스템 책 흐름 기반 설명 정리"
 tags: [Operating System, OS, 공룡책, CS]
 category: "Computer Science"
 draft: false
 ---
 
-`Operating System Concepts` 10판 Chapter 20, **The Linux System** 정리다. 다른 공룡책 정리 글들처럼 개념별로 의미와 기능을 먼저 잡는 방식으로 적었다.
+`Operating System Concepts` 10판 Chapter 20, **The Linux System**를 블로그용으로 다시 풀어 쓴 정리다.
 
-원서 기준 PDF page 915 부근에서 시작한다. 다이어그램은 핵심 흐름만 Mermaid로 작성한 뒤 PNG로 생성했다.
+원서 기준 PDF page 915 부근에서 시작하는 장의 흐름을 따라가되, 책 문장을 옮기지 않고 내 말로 설명했다. 다이어그램은 핵심 흐름만 직접 그려 PNG로 넣었다.
 
-## 핵심 개념
+## 이 장에서 먼저 잡을 것
+
+- Linux의 역사와 설계 원칙
+- 모듈형 단일 커널 구조
+- 프로세스, 스케줄링, 메모리, VFS 구현 감각
+- I/O, IPC, 네트워크, 보안 기능의 연결
+
+## 책 흐름대로 이해하기
+
+### Linux를 사례로 보는 이유
+
+Linux는 UNIX 계열 아이디어를 바탕으로 한 오픈소스 운영체제이고, 서버, 임베디드, 모바일, 클라우드에서 폭넓게 쓰인다. 책의 앞 장에서 배운 프로세스, 메모리, 파일 시스템, 네트워크, 보호 개념을 실제 커널 구조로 연결해 보기 좋은 사례다.
+
+Linux는 모듈을 지원하지만 마이크로커널은 아니다. 핵심 서비스는 커널 공간에서 함께 동작하고, 필요한 기능을 loadable kernel module로 확장할 수 있다.
+
+### 프로세스와 스케줄링
+
+Linux는 프로세스와 스레드를 모두 task라는 관점으로 관리한다. `fork()`는 새 task를 만들고, `exec()`는 실행 이미지를 교체한다. copy-on-write는 fork 직후 모든 메모리를 즉시 복사하지 않고, 실제 쓰기가 발생할 때 복사해 비용을 줄인다.
+
+스케줄링은 일반 작업과 실시간 작업을 구분한다. Completely Fair Scheduler는 일반 작업이 CPU를 공정하게 나눠 쓰도록 가상 실행 시간을 사용한다. 실시간 정책은 더 높은 우선순위 규칙을 가진다.
+
+### 메모리와 파일 시스템
+
+Linux 메모리 관리는 페이지 기반 가상 메모리, demand paging, page cache, slab 계열 allocator를 사용한다. 파일을 읽을 때도 디스크 블록은 page cache를 거쳐 재사용될 수 있다. 그래서 파일 I/O와 메모리 관리는 서로 깊게 연결되어 있다.
+
+VFS는 ext4, XFS, tmpfs, procfs, NFS 같은 파일 시스템을 공통 인터페이스로 묶는다. `/proc`은 실제 디스크 파일이라기보다 커널 상태를 파일처럼 보여 주는 가상 파일 시스템이다.
+
+### I/O, 네트워크, 보안
+
+Linux의 장치 드라이버는 커널 모듈로 제공되는 경우가 많고, 블록 장치와 문자 장치를 구분해 다룬다. 네트워크 스택은 소켓 인터페이스를 통해 사용자 프로그램과 연결되며, 패킷 처리 경로는 드라이버와 프로토콜 계층을 지난다.
+
+보안 측면에서는 사용자와 그룹 권한, capability, namespace, cgroup, LSM 같은 기능이 조합된다. 컨테이너 기술은 이 중 namespace와 cgroup을 적극적으로 사용한다.
+
+## 핵심 다이어그램
+
+![Linux 시스템 - Linux 시스템 구조](/os-concepts/diagrams/os-20-the-linux-system.png)
+
+## 핵심 개념 정리
 
 ### Linux 커널
 
@@ -48,10 +85,12 @@ draft: false
 - 주의: /proc은 디스크 파일이 아니라 커널 상태를 파일처럼 보여 준다.
 - 키워드: `VFS`, `procfs`
 
-## 핵심 다이어그램
+## 헷갈리기 쉬운 지점
 
-![Linux 시스템 - Linux 시스템 구조](/os-concepts/diagrams/os-20-the-linux-system.png)
+- Linux가 모듈을 지원한다고 해서 마이크로커널 구조라는 뜻은 아니다.
+- `/proc`의 파일들은 대부분 디스크에 저장된 일반 파일이 아니다.
+- 프로세스와 스레드는 Linux 내부에서 task 구조로 상당 부분 통합되어 다뤄진다.
 
-## 읽고 넘어갈 기준
+## 다음 장과 연결
 
-위 개념들의 의미와 기능을 한 문장씩 말할 수 있으면 다음 장으로 넘어가도 된다.
+Linux 사례를 봤다면, 21장에서는 Windows NT 계열 구조가 같은 문제를 다른 방식으로 푸는 모습을 본다.

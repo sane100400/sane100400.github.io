@@ -1,17 +1,54 @@
 ---
 title: "공룡책 운영체제 정리 18: 가상 머신"
 published: 2026-05-13
-description: "Operating System Concepts 10판 Ch.18 가상 머신 핵심 개념 의미와 기능 정리"
+description: "Operating System Concepts 10판 Ch.18 가상 머신 책 흐름 기반 설명 정리"
 tags: [Operating System, OS, 공룡책, CS]
 category: "Computer Science"
 draft: false
 ---
 
-`Operating System Concepts` 10판 Chapter 18, **Virtual Machines** 정리다. 다른 공룡책 정리 글들처럼 개념별로 의미와 기능을 먼저 잡는 방식으로 적었다.
+`Operating System Concepts` 10판 Chapter 18, **Virtual Machines**를 블로그용으로 다시 풀어 쓴 정리다.
 
-원서 기준 PDF page 838 부근에서 시작한다. 다이어그램은 핵심 흐름만 Mermaid로 작성한 뒤 PNG로 생성했다.
+원서 기준 PDF page 838 부근에서 시작하는 장의 흐름을 따라가되, 책 문장을 옮기지 않고 내 말로 설명했다. 다이어그램은 핵심 흐름만 직접 그려 PNG로 넣었다.
 
-## 핵심 개념
+## 이 장에서 먼저 잡을 것
+
+- 가상 머신이 하드웨어 실행 환경을 추상화하는 방식
+- Type 1과 Type 2 하이퍼바이저
+- CPU, 메모리, I/O 가상화의 핵심 문제
+- 스냅샷, migration, 클라우드와 개발 환경에서의 활용
+
+## 책 흐름대로 이해하기
+
+### 가상 머신의 기본 생각
+
+가상 머신은 하나의 물리 컴퓨터 위에 여러 개의 독립된 실행 환경을 만든다. 각 guest OS는 자신이 실제 하드웨어를 가진 것처럼 동작하지만, 실제 자원 배분은 하이퍼바이저가 조정한다. 이 구조는 격리, 서버 통합, 테스트, 클라우드 배포에 유용하다.
+
+가상 머신은 프로세스보다 큰 격리 단위다. 프로세스는 같은 커널을 공유하지만, VM은 guest OS까지 포함한 독립 환경을 제공한다.
+
+### 하이퍼바이저의 종류
+
+Type 1 하이퍼바이저는 하드웨어 위에서 직접 실행된다. 서버 가상화와 클라우드 환경에서 많이 쓰인다. Type 2 하이퍼바이저는 호스트 운영체제 위의 응용 프로그램처럼 실행되며, 데스크톱 개발과 테스트 환경에서 접근하기 쉽다.
+
+구분은 배치 구조의 차이다. 어느 쪽이 항상 좋다고 외우기보다, 성능, 관리, 장치 지원, 사용 목적에 따라 선택한다고 보는 편이 정확하다.
+
+### CPU와 메모리 가상화
+
+CPU 가상화에서는 guest OS가 특권 명령을 실행하려 할 때 하이퍼바이저가 이를 안전하게 처리해야 한다. trap-and-emulate, binary translation, 하드웨어 지원 가상화는 이 문제를 푸는 방법들이다. 현대 CPU는 가상화를 위한 명령과 모드를 제공한다.
+
+메모리 가상화에서는 guest virtual address, guest physical address, host physical address가 구분된다. 하이퍼바이저는 guest가 보는 물리 메모리를 실제 물리 메모리에 매핑해야 한다. 이 과정에서도 TLB와 페이지 테이블 비용이 중요하다.
+
+### I/O와 운영 기능
+
+I/O 가상화는 장치가 다양하고 성능 요구가 높아 까다롭다. 완전 에뮬레이션은 호환성이 좋지만 느릴 수 있고, paravirtualized driver나 device passthrough는 성능을 높이지만 제약이 생긴다.
+
+스냅샷은 특정 시점의 VM 상태를 저장하고 되돌릴 수 있게 한다. Live migration은 실행 중인 VM을 다른 물리 호스트로 옮겨 유지보수와 부하 분산을 가능하게 한다. 이 기능들은 클라우드 인프라의 기반이다.
+
+## 핵심 다이어그램
+
+![가상 머신 - Type 1과 Type 2 하이퍼바이저](/os-concepts/diagrams/os-18-virtual-machines.png)
+
+## 핵심 개념 정리
 
 ### 가상 머신
 
@@ -48,10 +85,12 @@ draft: false
 - 주의: 메모리 변경분과 I/O 상태 처리가 어렵다.
 - 키워드: `live migration`
 
-## 핵심 다이어그램
+## 헷갈리기 쉬운 지점
 
-![가상 머신 - Type 1과 Type 2 하이퍼바이저](/os-concepts/diagrams/os-18-virtual-machines.png)
+- VM은 컨테이너와 다르다. VM은 guest OS를 포함하고, 컨테이너는 보통 호스트 커널을 공유한다.
+- Type 1과 Type 2는 하이퍼바이저가 어디에 놓이는지의 구분이다.
+- I/O 가상화는 CPU 가상화보다 단순하지 않다. 장치와 성능 요구가 복잡하다.
 
-## 읽고 넘어갈 기준
+## 다음 장과 연결
 
-위 개념들의 의미와 기능을 한 문장씩 말할 수 있으면 다음 장으로 넘어가도 된다.
+한 컴퓨터 안의 격리를 봤다면, 19장은 여러 컴퓨터가 네트워크로 협력할 때 생기는 운영체제 문제를 본다.

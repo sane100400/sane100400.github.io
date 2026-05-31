@@ -30,23 +30,21 @@ draft: false
 
 이 구조를 이해하면 hard link도 자연스럽게 보인다. 여러 이름이 같은 inode를 가리킬 수 있고, inode의 link count가 0이 되면 실제 데이터 회수가 가능해진다.
 
+![파일 시스템 구현 - inode와 블록 매핑](/os-concepts/diagrams/os-14-file-system-implementation-detail.png)
+
 ## 블록 할당 방식
 
 연속 할당은 파일 블록을 디스크의 연속된 위치에 둔다. 순차 접근과 직접 접근이 빠르지만, 파일이 커질 때 주변에 빈 공간이 없으면 문제가 생긴다. 연결 할당은 각 블록이 다음 블록을 가리키므로 파일 확장은 쉽지만 임의 접근이 느리다.
 
 색인 할당은 인덱스 블록이 데이터 블록 주소들을 담는다. 임의 접근과 확장에 유리하지만 인덱스 블록 비용이 든다. 실제 파일 시스템은 작은 파일과 큰 파일 모두를 고려해 직접 포인터, 간접 포인터 등을 조합한다.
 
+![파일 시스템 구현 - 파일 블록 할당 방식](/os-concepts/diagrams/os-14-file-system-implementation.png)
+
 ## 자유 공간, 성능, 복구
 
 새 블록을 할당하려면 빈 블록을 알아야 한다. bitmap은 각 블록의 사용 여부를 비트로 표시해 단순하고 빠르게 탐색할 수 있다. free list는 빈 블록들을 연결해 관리한다. 어떤 방식이든 동시 갱신과 crash 상황을 고려해야 한다.
 
 파일 시스템은 캐시와 버퍼를 통해 성능을 높인다. 하지만 쓰기 캐시가 있으면 갑작스러운 전원 차단에서 메타데이터와 데이터가 엇갈릴 수 있다. journaling과 log-structured 접근은 이런 복구 문제를 줄이기 위한 설계다.
-
-## 다이어그램
-
-![파일 시스템 구현 - 파일 블록 할당 방식](/os-concepts/diagrams/os-14-file-system-implementation.png)
-
-![파일 시스템 구현 - inode와 블록 매핑](/os-concepts/diagrams/os-14-file-system-implementation-detail.png)
 
 ## 용어 정리
 

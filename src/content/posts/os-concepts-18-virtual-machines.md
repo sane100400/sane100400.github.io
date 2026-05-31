@@ -30,23 +30,21 @@ Type 1 하이퍼바이저는 하드웨어 위에서 직접 실행된다. 서버 
 
 구분은 배치 구조의 차이다. 어느 쪽이 항상 좋다고 외우기보다, 성능, 관리, 장치 지원, 사용 목적에 따라 선택한다고 보는 편이 정확하다.
 
+![가상 머신 - Type 1과 Type 2 하이퍼바이저](/os-concepts/diagrams/os-18-virtual-machines.png)
+
 ## CPU와 메모리 가상화
 
 CPU 가상화에서는 guest OS가 특권 명령을 실행하려 할 때 하이퍼바이저가 이를 안전하게 처리해야 한다. trap-and-emulate, binary translation, 하드웨어 지원 가상화는 이 문제를 푸는 방법들이다. 현대 CPU는 가상화를 위한 명령과 모드를 제공한다.
 
 메모리 가상화에서는 guest virtual address, guest physical address, host physical address가 구분된다. 하이퍼바이저는 guest가 보는 물리 메모리를 실제 물리 메모리에 매핑해야 한다. 이 과정에서도 TLB와 페이지 테이블 비용이 중요하다.
 
+![가상 머신 - 메모리 가상화 주소](/os-concepts/diagrams/os-18-virtual-machines-detail.png)
+
 ## I/O와 운영 기능
 
 I/O 가상화는 장치가 다양하고 성능 요구가 높아 까다롭다. 완전 에뮬레이션은 호환성이 좋지만 느릴 수 있고, paravirtualized driver나 device passthrough는 성능을 높이지만 제약이 생긴다.
 
 스냅샷은 특정 시점의 VM 상태를 저장하고 되돌릴 수 있게 한다. Live migration은 실행 중인 VM을 다른 물리 호스트로 옮겨 유지보수와 부하 분산을 가능하게 한다. 이 기능들은 클라우드 인프라의 기반이다.
-
-## 다이어그램
-
-![가상 머신 - Type 1과 Type 2 하이퍼바이저](/os-concepts/diagrams/os-18-virtual-machines.png)
-
-![가상 머신 - 메모리 가상화 주소](/os-concepts/diagrams/os-18-virtual-machines-detail.png)
 
 ## 용어 정리
 

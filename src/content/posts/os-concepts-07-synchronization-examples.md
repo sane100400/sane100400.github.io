@@ -24,11 +24,15 @@ bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터
 
 그래서 empty, full, mutex 같은 역할을 분리한다. 빈 칸 수를 세는 일과 버퍼 내부를 보호하는 일은 서로 다른 문제다. 이 분리가 동기화 예제를 읽는 핵심이다.
 
+![동기화 예제 - 생산자-소비자 구조](/os-concepts/diagrams/os-07-synchronization-examples.png)
+
 ## Readers-Writers 문제
 
 읽기 작업은 서로 동시에 실행되어도 보통 문제가 없다. 하지만 쓰기 작업은 단독으로 실행되어야 한다. readers-writers 문제는 읽기 동시성을 최대한 살리면서 쓰기 일관성을 보장하는 문제다.
 
 정책에 따라 reader를 우선할 수도 있고 writer를 우선할 수도 있다. reader 우선은 읽기 성능은 좋지만 writer가 오래 기다릴 수 있다. writer 우선은 갱신 지연을 줄이지만 읽기 처리량이 줄어들 수 있다. 결국 정책 선택은 workload에 따라 달라진다.
+
+![동기화 예제 - Readers-Writers 정책](/os-concepts/diagrams/os-07-synchronization-examples-detail.png)
 
 ## Dining Philosophers가 보여 주는 것
 
@@ -41,12 +45,6 @@ bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터
 커널은 일반 응용 프로그램보다 제약이 많다. 인터럽트 문맥에서는 잠들 수 없고, 멀티코어에서는 같은 커널 자료구조를 여러 CPU가 동시에 건드릴 수 있다. 그래서 짧은 임계 구역에는 spinlock, 잠들 수 있는 경로에는 mutex나 semaphore, 단순 카운터에는 atomic 연산처럼 상황에 맞는 도구를 쓴다.
 
 동기화 예제를 공부할 때는 정답 코드를 외우기보다, 어떤 상태를 보호하고 어떤 조건을 기다리는지 분리해서 보는 편이 오래 간다.
-
-## 다이어그램
-
-![동기화 예제 - 생산자-소비자 구조](/os-concepts/diagrams/os-07-synchronization-examples.png)
-
-![동기화 예제 - Readers-Writers 정책](/os-concepts/diagrams/os-07-synchronization-examples-detail.png)
 
 ## 용어 정리
 

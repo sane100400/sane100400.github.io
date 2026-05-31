@@ -30,6 +30,10 @@ draft: false
 
 이 흐름은 I/O를 포함하므로 일반 메모리 접근보다 훨씬 비싸다. 그래서 page fault rate를 낮추는 것이 가상 메모리 성능의 핵심이다.
 
+![가상 메모리 - 요구 페이징 처리](/os-concepts/diagrams/os-10-virtual-memory.png)
+
+![가상 메모리 - Page fault 비용](/os-concepts/diagrams/os-10-virtual-memory-detail.png)
+
 ## 페이지 교체 정책
 
 빈 frame이 없으면 어떤 페이지를 내보낼지 정해야 한다. FIFO는 오래 들어와 있던 페이지를 내보내지만, 자주 쓰이는 페이지도 오래됐다는 이유로 쫓아낼 수 있다. Optimal은 앞으로 가장 늦게 사용될 페이지를 내보내므로 기준점으로는 좋지만 미래를 알아야 하므로 실제 구현은 어렵다.
@@ -41,12 +45,6 @@ LRU는 최근에 사용되지 않은 페이지가 앞으로도 덜 쓰일 것이
 프로세스에 할당된 frame이 작업 집합보다 적으면 필요한 페이지를 계속 쫓아내고 다시 가져오게 된다. 이때 CPU는 계산보다 페이지 교체와 디스크 I/O에 시간을 쓰며, 시스템 전체 처리량이 떨어진다. 이것이 thrashing이다.
 
 working set model은 일정 시간 창 안에서 실제로 사용한 페이지 집합을 추적해 프로세스가 필요한 메모리 규모를 추정한다. 핵심은 프로세스 수를 무작정 늘리는 것이 항상 좋은 일이 아니라는 점이다.
-
-## 다이어그램
-
-![가상 메모리 - 요구 페이징 처리](/os-concepts/diagrams/os-10-virtual-memory.png)
-
-![가상 메모리 - Page fault 비용](/os-concepts/diagrams/os-10-virtual-memory-detail.png)
 
 ## 용어 정리
 

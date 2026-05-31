@@ -30,23 +30,21 @@ draft: false
 
 Peterson 해법은 소프트웨어만으로 임계 구역을 해결하는 고전 예시지만, 현대 CPU의 메모리 재정렬과 다중 코어 환경을 그대로 반영하지는 않는다. 그래서 실제 시스템은 하드웨어 원자 명령을 기반으로 동기화 도구를 만든다.
 
+![동기화 도구 - 임계 구역 보호](/os-concepts/diagrams/os-06-synchronization-tools.png)
+
 ## mutex와 semaphore
 
 mutex는 임계 구역을 하나의 락으로 보호한다. 락을 잡은 스레드만 들어가고, 끝나면 락을 푼다. 단순하지만 락을 너무 넓게 잡으면 병렬성이 줄고, 락을 너무 잘게 나누면 설계가 복잡해진다.
 
 semaphore는 정수 값과 `wait`, `signal` 연산으로 자원 수나 실행 순서를 제어한다. counting semaphore는 동일 자원이 여러 개 있을 때 유용하고, binary semaphore는 mutex처럼 쓸 수 있다. 하지만 `wait`와 `signal`의 위치를 잘못 두면 교착 상태나 기아가 생긴다.
 
+![동기화 도구 - 원자 명령에서 락까지](/os-concepts/diagrams/os-06-synchronization-tools-detail.png)
+
 ## monitor와 조건 변수
 
 monitor는 공유 데이터와 그 데이터를 다루는 함수를 하나로 묶고, 한 번에 하나의 스레드만 monitor 내부를 실행하게 하는 고수준 구조다. 조건 변수는 특정 조건이 만족될 때까지 기다리고, 조건을 만족시킨 스레드가 깨워 주는 방식으로 동작한다.
 
 조건 변수에서는 깨어났다고 해서 조건이 여전히 참이라고 단정하면 안 된다. 다른 스레드가 먼저 상태를 바꿨을 수 있으므로 보통 반복문으로 조건을 다시 확인한다. 이 습관은 실제 동시성 코드에서 매우 중요하다.
-
-## 다이어그램
-
-![동기화 도구 - 임계 구역 보호](/os-concepts/diagrams/os-06-synchronization-tools.png)
-
-![동기화 도구 - 원자 명령에서 락까지](/os-concepts/diagrams/os-06-synchronization-tools-detail.png)
 
 ## 용어 정리
 

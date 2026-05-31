@@ -24,6 +24,8 @@ draft: false
 
 운영체제 관점에서는 로컬 자원만 관리하던 문제가 네트워크 너머로 확장된다. 파일, 프로세스, 이름, 인증, 장애 처리가 모두 더 복잡해진다.
 
+![네트워크와 분산 시스템 - 분산 시스템 실패](/os-concepts/diagrams/os-19-networks-and-distributed-systems-detail.png)
+
 ## 통신과 프로토콜
 
 네트워크 통신은 정해진 프로토콜에 따라 이루어진다. TCP는 연결 기반의 신뢰성 있는 바이트 스트림을 제공하고, UDP는 더 단순한 datagram 전달을 제공한다. 어떤 프로토콜을 쓸지는 신뢰성, 지연, 순서 보장, 구현 복잡도에 따라 달라진다.
@@ -42,11 +44,7 @@ draft: false
 
 분산 시스템의 핵심 난점은 partial failure다. 한 노드는 살아 있고 다른 노드는 죽을 수 있으며, 네트워크만 끊길 수도 있다. 로컬 운영체제에서는 드문 종류의 불확실성이 기본 상황이 된다.
 
-## 다이어그램
-
 ![네트워크와 분산 시스템 - 분산 파일 시스템](/os-concepts/diagrams/os-19-networks-and-distributed-systems.png)
-
-![네트워크와 분산 시스템 - 분산 시스템 실패](/os-concepts/diagrams/os-19-networks-and-distributed-systems-detail.png)
 
 ## 용어 정리
 

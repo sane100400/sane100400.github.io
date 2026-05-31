@@ -24,6 +24,10 @@ draft: false
 
 스케줄링은 성능 목표에 따라 답이 달라진다. 서버는 처리량을 중시할 수 있고, 대화형 시스템은 응답 시간을 중시한다. 배치 작업은 평균 대기 시간이 중요하고, 실시간 시스템은 마감 시간 준수가 더 중요하다.
 
+![CPU 스케줄링 - CPU 스케줄링 위치](/os-concepts/diagrams/os-05-cpu-scheduling.png)
+
+![CPU 스케줄링 - 스케줄링 평가 기준](/os-concepts/diagrams/os-05-cpu-scheduling-detail.png)
+
 ## 기본 알고리즘의 성격
 
 FCFS는 먼저 온 작업을 먼저 처리한다. 단순하지만 긴 작업이 앞에 있으면 뒤의 짧은 작업들이 오래 기다리는 convoy effect가 생긴다. SJF는 다음 CPU burst가 가장 짧은 작업을 먼저 실행해 평균 대기 시간을 줄이지만, 실제 시스템에서는 다음 burst를 정확히 알 수 없다.
@@ -41,12 +45,6 @@ Multilevel queue와 multilevel feedback queue는 작업 성격에 따라 큐를 
 코어가 여러 개면 어느 작업을 실행할지만이 아니라 어느 코어에서 실행할지도 정해야 한다. 이전에 실행된 코어의 캐시를 활용하려면 processor affinity가 유리하다. 동시에 부하 균형도 맞춰야 하므로 스케줄러의 판단이 복잡해진다.
 
 실시간 스케줄링에서는 평균 응답보다 deadline이 중요하다. Rate-monotonic은 주기가 짧은 작업에 높은 우선순위를 주고, EDF는 가장 가까운 마감 시간을 가진 작업을 먼저 실행한다. 여기서 실시간은 빠르다는 뜻이 아니라 시간 제약을 예측 가능하게 지킨다는 뜻이다.
-
-## 다이어그램
-
-![CPU 스케줄링 - CPU 스케줄링 위치](/os-concepts/diagrams/os-05-cpu-scheduling.png)
-
-![CPU 스케줄링 - 스케줄링 평가 기준](/os-concepts/diagrams/os-05-cpu-scheduling-detail.png)
 
 ## 용어 정리
 

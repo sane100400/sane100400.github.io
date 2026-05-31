@@ -30,23 +30,21 @@ draft: false
 
 전체 행렬은 대부분 비어 있고 너무 크기 때문에 그대로 저장하지 않는다. 객체 중심으로 열을 저장하면 ACL이 되고, 주체 중심으로 행을 저장하면 capability list가 된다.
 
+![보호 - 접근 행렬 모델](/os-concepts/diagrams/os-17-protection.png)
+
 ## ACL과 capability
 
 ACL은 파일마다 어떤 사용자나 그룹이 읽기, 쓰기, 실행을 할 수 있는지 목록을 두는 방식이다. 객체 중심이라 특정 파일의 권한을 확인하고 회수하기 쉽다. UNIX 파일 권한과 확장 ACL은 이 방향에 가깝다.
 
 Capability는 주체가 가진 권한 토큰이다. 주체가 capability를 제시하면 해당 객체에 대한 권한을 증명할 수 있다. 이 방식은 전달과 위조 방지가 중요하다. 권한을 회수하는 일은 ACL보다 어려울 수 있다.
 
+![보호 - ACL과 Capability](/os-concepts/diagrams/os-17-protection-detail.png)
+
 ## 권한 모델은 현실의 조직 구조와 만난다
 
 역할 기반 접근 제어는 사용자에게 직접 권한을 많이 붙이기보다 역할에 권한을 부여하고 사용자를 역할에 배정한다. 회사나 서비스 운영처럼 직무가 권한을 결정하는 환경에 잘 맞는다.
 
 권한 모델의 핵심은 편의성과 안전성의 균형이다. 너무 엄격하면 업무가 막히고, 너무 느슨하면 침해 시 피해가 커진다. 운영체제 보호 모델은 이 균형을 강제 가능한 형태로 만드는 작업이다.
-
-## 다이어그램
-
-![보호 - 접근 행렬 모델](/os-concepts/diagrams/os-17-protection.png)
-
-![보호 - ACL과 Capability](/os-concepts/diagrams/os-17-protection-detail.png)
 
 ## 용어 정리
 

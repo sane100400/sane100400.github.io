@@ -26,6 +26,8 @@ draft: false
 
 ![스레드와 병행성 - 프로세스와 스레드의 메모리 차이](/os-concepts/diagrams/os-04-threads-concurrency-detail.png)
 
+> 그림 읽기: 왼쪽은 프로세스마다 code, data, heap, files, stack, registers가 따로 잡힌다. 오른쪽은 code, data, heap, open files를 공유하고 스레드별 stack과 registers만 나뉜다.
+
 ## 병행성과 병렬성을 구분하기
 
 병행성은 여러 작업이 진행 중인 것처럼 구성되는 성질이다. 단일 코어에서도 운영체제가 실행 흐름을 빠르게 바꿔 가며 병행성을 만들 수 있다. 병렬성은 실제로 같은 순간 여러 코어에서 작업이 실행되는 성질이다.
@@ -39,6 +41,8 @@ draft: false
 many-to-one, one-to-one, many-to-many 모델은 사용자 스레드와 커널 스레드를 어떻게 연결하느냐의 차이다. 현대 범용 시스템은 보통 one-to-one 모델을 많이 사용한다.
 
 ![스레드와 병행성 - 사용자 스레드와 커널 스레드](/os-concepts/diagrams/os-04-threads-concurrency.png)
+
+> 그림 읽기: 사용자 스레드가 많아도 커널 스레드에 어떻게 연결되는지에 따라 블로킹과 병렬 실행이 달라진다. 결국 CPU에 올리는 단위는 커널이 스케줄링할 수 있는 실행 흐름이다.
 
 ## 스레드 프로그래밍의 현실적인 문제
 

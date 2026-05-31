@@ -26,6 +26,8 @@ bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터
 
 ![동기화 예제 - 생산자-소비자 구조](/os-concepts/diagrams/os-07-synchronization-examples.png)
 
+> 그림 읽기: bounded buffer에서는 빈 칸 수, 찬 칸 수, 버퍼 배열 보호가 서로 다른 문제다. empty, full, mutex를 섞지 않고 따로 보면 코드가 훨씬 명확해진다.
+
 ## Readers-Writers 문제
 
 읽기 작업은 서로 동시에 실행되어도 보통 문제가 없다. 하지만 쓰기 작업은 단독으로 실행되어야 한다. readers-writers 문제는 읽기 동시성을 최대한 살리면서 쓰기 일관성을 보장하는 문제다.
@@ -33,6 +35,8 @@ bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터
 정책에 따라 reader를 우선할 수도 있고 writer를 우선할 수도 있다. reader 우선은 읽기 성능은 좋지만 writer가 오래 기다릴 수 있다. writer 우선은 갱신 지연을 줄이지만 읽기 처리량이 줄어들 수 있다. 결국 정책 선택은 workload에 따라 달라진다.
 
 ![동기화 예제 - Readers-Writers 정책](/os-concepts/diagrams/os-07-synchronization-examples-detail.png)
+
+> 그림 읽기: reader는 여러 명이 동시에 들어갈 수 있지만 writer는 단독 접근이 필요하다. 어떤 쪽을 우선하느냐에 따라 starvation 위험도 달라진다.
 
 ## Dining Philosophers가 보여 주는 것
 

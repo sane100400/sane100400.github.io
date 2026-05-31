@@ -26,6 +26,8 @@ draft: false
 
 ![파일 시스템 내부 - 마운트와 VFS](/os-concepts/diagrams/os-15-file-system-internals-detail.png)
 
+> 그림 읽기: 마운트는 데이터를 복사하는 일이 아니라 경로 해석의 특정 지점을 다른 파일 시스템 루트와 연결하는 일이다.
+
 ## VFS가 필요한 이유
 
 한 시스템에는 ext4, XFS, tmpfs, procfs, NFS처럼 성격이 다른 파일 시스템이 함께 존재할 수 있다. 응용 프로그램이 파일 시스템마다 다른 API를 배워야 한다면 불편하다. VFS는 공통 vnode/inode 추상화를 제공해 open, read, write 같은 호출을 적절한 파일 시스템 구현으로 분배한다.
@@ -33,6 +35,8 @@ draft: false
 VFS는 실제 디스크 형식이 아니다. 서로 다른 구현을 같은 인터페이스로 보이게 하는 커널 내부 계층이다.
 
 ![파일 시스템 내부 - VFS 계층](/os-concepts/diagrams/os-15-file-system-internals.png)
+
+> 그림 읽기: VFS는 ext4, XFS, NFS, procfs처럼 서로 다른 구현을 같은 open/read/write 인터페이스로 묶는다. 응용 프로그램은 파일 시스템 종류를 매번 의식하지 않는다.
 
 ## 파일 공유와 일관성
 

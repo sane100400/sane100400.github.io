@@ -32,6 +32,8 @@ Peterson 해법은 소프트웨어만으로 임계 구역을 해결하는 고전
 
 ![동기화 도구 - 임계 구역 보호](/os-concepts/diagrams/os-06-synchronization-tools.png)
 
+> 그림 읽기: 임계 구역 앞뒤에 lock과 unlock을 두는 이유는 공유 데이터 접근 구간을 한 번에 하나의 실행 흐름만 지나가게 하려는 것이다.
+
 ## mutex와 semaphore
 
 mutex는 임계 구역을 하나의 락으로 보호한다. 락을 잡은 스레드만 들어가고, 끝나면 락을 푼다. 단순하지만 락을 너무 넓게 잡으면 병렬성이 줄고, 락을 너무 잘게 나누면 설계가 복잡해진다.
@@ -39,6 +41,8 @@ mutex는 임계 구역을 하나의 락으로 보호한다. 락을 잡은 스레
 semaphore는 정수 값과 `wait`, `signal` 연산으로 자원 수나 실행 순서를 제어한다. counting semaphore는 동일 자원이 여러 개 있을 때 유용하고, binary semaphore는 mutex처럼 쓸 수 있다. 하지만 `wait`와 `signal`의 위치를 잘못 두면 교착 상태나 기아가 생긴다.
 
 ![동기화 도구 - 원자 명령에서 락까지](/os-concepts/diagrams/os-06-synchronization-tools-detail.png)
+
+> 그림 읽기: CAS나 test-and-set 같은 원자 명령은 더 높은 수준의 mutex를 만드는 재료다. 락을 얻지 못한 실행 흐름은 spin하거나 대기 큐로 내려간다.
 
 ## monitor와 조건 변수
 

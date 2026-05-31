@@ -20,6 +20,16 @@ export REGION=us-east1
 gcloud config set project $PROJECT_ID
 ```
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| API 활성화 | Cloud Run Functions 2세대 배포에 필요한 서비스 API를 켠다. | `cloudfunctions`만으로는 부족하다. 소스 빌드는 `cloudbuild`, 컨테이너 저장은 `artifactregistry`, 실행은 `run`, 이벤트 연결은 `eventarc`가 맡는다. |
+| Task 1 | Storage 이벤트를 발생시킬 버킷을 만든다. | 버킷 이름을 프로젝트 ID와 같게 요구하는 랩이다. `gs://$PROJECT_ID`와 `--location=$REGION`이 채점 포인트다. |
+| Task 2 | Cloud Storage object finalize 이벤트를 받는 `cs-tracker` 함수를 배포한다. | `functions.cloudEvent('cs-tracker', ...)`의 이름과 `--entry-point=cs-tracker`가 같아야 한다. `--trigger-bucket`은 Eventarc 트리거의 bucket filter가 된다. |
+| Task 3 | HTTP 요청에 응답하는 `http-messenger` 함수를 배포한다. | Storage 트리거와 달리 `--trigger-http`를 쓴다. 외부 호출이 필요하면 `--allow-unauthenticated`나 IAM invoker 설정도 같이 봐야 한다. |
+| 패치 작업 | 권한 전파나 max instances 조건 때문에 채점이 막힐 때 기존 함수를 보정한다. | Eventarc service agent, Storage service account의 Pub/Sub 권한, `serviceConfig.maxInstanceCount` 값이 자주 문제 된다. |
+
 ## 0. API 활성화
 
 Cloud Run functions 2세대는 Cloud Functions만 켜서는 부족하다. 빌드, 실행, 트리거 생성에 필요한 API를 같이 켜야 한다.

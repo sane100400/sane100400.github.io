@@ -9,6 +9,15 @@ draft: false
 
 ARC101은 Cloud Storage에 이미지를 올리면 함수가 썸네일을 만들고, Pub/Sub로 메시지를 보내고, 마지막에 Cloud Monitoring 알림 정책까지 만드는 랩이다. 명령어는 길지만 흐름은 단순하다. 버킷을 만들고, 토픽을 만들고, 함수가 버킷 이벤트를 받게 연결한 뒤, 함수 활성 인스턴스 메트릭으로 알림을 만든다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | 이미지가 올라갈 Cloud Storage 버킷을 만들고, 랩에서 준 User 2에게 읽기 권한을 준다. | `gs://${BUCKET_NAME}`는 버킷 URI라서 `gs://`가 필요하다. `--location`은 랩 리전과 맞춰야 하고, IAM은 `--member="user:${USER2_EMAIL}"`, `--role="roles/storage.objectViewer"` 조합을 본다. |
+| Task 2 | 함수가 처리 결과를 알릴 Pub/Sub 토픽을 만든다. | 채점기는 토픽 이름을 직접 찾는다. `gcloud pubsub topics create "$TOPIC_NAME"`에서 이름을 랩 화면 값으로 맞추는 게 핵심이다. |
+| Task 3 | Storage 이벤트를 받는 Cloud Run Functions 2세대 함수를 배포하고, 업로드된 이미지를 64x64 썸네일로 만든다. | 배포 전에 서비스 계정 권한을 먼저 붙인다. `--gen2`, `--entry-point=thumbnail`, `--trigger-bucket`, `--trigger-location`, `--service-account`가 서로 맞아야 Eventarc 트리거가 제대로 생긴다. |
+| Task 4 | 함수 활성 인스턴스 메트릭을 기준으로 Monitoring 알림 정책을 만든다. | 알림 채널은 `CHANNEL_ID`처럼 전체 resource name으로 들어간다. 정책 JSON의 `displayName`과 metric filter가 채점 포인트다. |
+
 ## 시작 전에 바꿀 값
 
 스크립트 맨 위에서 아래 값은 랩 화면에 맞춰 바꾼다.

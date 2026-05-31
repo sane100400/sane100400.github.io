@@ -9,6 +9,14 @@ draft: false
 
 ARC109는 서버리스 API를 만드는 랩이다. 먼저 HTTP Cloud Run Function을 만들고, API Gateway를 붙인 다음, 같은 API가 Pub/Sub 메시지를 발행하도록 함수를 바꾼다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | HTTP로 호출되는 Cloud Run Functions 2세대 함수를 만든다. | `--trigger-http`는 HTTP 엔드포인트를 만들고, `--allow-unauthenticated`는 인증 없이 호출 가능하게 한다. `--entry-point=helloHttp`는 코드 안의 함수 이름과 반드시 같아야 한다. |
+| Task 2 | API Gateway를 만들고 `/gcfunction` 경로를 함수 backend로 연결한다. | OpenAPI의 `x-google-backend.address`에 함수 URL이 들어간다. `--backend-auth-service-account`를 쓰므로 API Gateway service agent에 `roles/iam.serviceAccountTokenCreator`가 필요하다. |
+| Task 3 | 함수 코드를 바꿔 API 호출 시 Pub/Sub 토픽으로 메시지를 발행하게 만든다. | 함수 서비스 계정에 `roles/pubsub.publisher`가 있어야 한다. 재배포해도 Gateway hostname은 그대로이고, backend 함수 동작만 바뀐다. |
+
 ## 시작 값
 
 스크립트는 프로젝트 ID를 현재 `gcloud config`에서 읽는다. 그래도 시작 전에 랩 프로젝트가 맞는지 확인한다.

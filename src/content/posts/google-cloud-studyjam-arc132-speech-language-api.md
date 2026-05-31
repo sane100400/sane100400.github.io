@@ -11,6 +11,16 @@ ARC132는 사전 학습 API를 여러 개 호출하는 랩이다. API key를 만
 
 이 랩은 지시문이 콘솔에서 API key를 만들라고 요구한다. Cloud Shell 명령으로 우회하기보다 콘솔에서 만드는 편이 채점이 잘 잡힌다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | Speech, Text-to-Speech, Translation API 호출에 쓸 API key를 만든다. | 콘솔 생성이 채점에 잘 잡힌다. 이후 Cloud Shell에서는 key string만 `API_KEY`로 export해서 lab-vm에 가져간다. |
+| Task 2 | Text-to-Speech API로 텍스트를 MP3 음성 파일로 바꾼다. | 요청 JSON의 `voice.languageCode`, `voice.name`, `audioEncoding`이 출력 음성 조건이다. 응답의 `audioContent`는 base64라서 `tts_decode.py`로 디코딩해야 실제 MP3가 된다. |
+| Task 3 | Cloud Speech API로 FLAC 오디오를 프랑스어 텍스트로 변환한다. | `encoding`, `sampleRateHertz`, `languageCode`가 오디오와 맞아야 한다. 오디오는 `gs://...` URI로 넘기므로 로컬 다운로드가 필요 없다. |
+| Task 4 | Translation API로 일본어 문장을 영어로 번역한다. | `q`는 번역할 원문, `target`은 목표 언어다. `format: text`는 HTML이 아닌 일반 텍스트로 처리하겠다는 뜻이다. |
+| Task 5 | Translation detect endpoint로 문장의 언어를 감지한다. | `/detect` endpoint를 쓰며, 응답의 `language`와 `confidence`를 보면 어떤 언어로 판정됐는지 알 수 있다. |
+
 ## Task 1. API key 만들기
 
 프로젝트를 맞추고 API Keys API를 켠다.

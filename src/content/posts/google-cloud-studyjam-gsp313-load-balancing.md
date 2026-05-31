@@ -9,6 +9,14 @@ draft: false
 
 GSP313은 Compute Engine 위에서 두 종류의 로드 밸런서를 구성하는 랩이다. 먼저 `web1`, `web2`, `web3` 인스턴스를 만들고 Network Load Balancer를 붙인다. 그다음 managed instance group 기반의 HTTP Load Balancer를 만든다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | Apache가 설치된 웹 서버 VM 3대를 만들고 HTTP 방화벽을 연다. | `--metadata-from-file=startup-script=...`가 VM 부팅 시 Apache 설치 스크립트를 넣는다. `--tags=network-lb-tag`와 firewall rule의 `--target-tags`가 맞아야 80번 포트가 열린다. |
+| Task 2 | Regional Network Load Balancer를 만들어 VM 3대로 TCP/HTTP 트래픽을 분산한다. | `target-pool`은 레거시 Network LB의 backend 묶음이다. `forwarding-rules create`에서 `--address`, `--target-pool`, `--ports=80`이 연결된다. |
+| Task 3 | Managed Instance Group을 backend로 쓰는 전역 HTTP Load Balancer를 만든다. | HTTP LB는 `instance template -> MIG -> backend service -> URL map -> proxy -> global forwarding rule` 순서다. health check source range를 firewall로 열어야 backend가 healthy가 된다. |
+
 ## 시작 값
 
 ```bash

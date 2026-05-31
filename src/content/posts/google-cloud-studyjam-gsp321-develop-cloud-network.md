@@ -11,6 +11,20 @@ GSP321은 긴 랩이다. 개발 VPC와 운영 VPC를 만들고, bastion host를 
 
 한 번에 끝까지 붙여넣기보다 태스크마다 멈춰서 채점하는 게 좋다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | 개발용 VPC와 WordPress/mgmt 서브넷을 만든다. | `--subnet-mode=custom`이라 subnet을 직접 정의한다. `griffin-dev-wp`는 GKE/WordPress용, `griffin-dev-mgmt`는 관리 접근용으로 분리된다. |
+| Task 2 | 운영용 VPC와 WordPress/mgmt 서브넷을 만든다. | 개발 VPC와 CIDR이 겹치지 않게 다른 range를 쓴다. 이름에 `prod`가 들어가는지 확인해야 채점기가 구분한다. |
+| Task 3 | 두 VPC에 모두 연결된 bastion host를 만든다. | `--network-interface`를 두 번 써서 NIC를 2개 붙인다. 두 번째 인터페이스의 `no-address`는 외부 IP 없이 내부망 전용으로 두겠다는 뜻이다. |
+| Task 4 | Cloud SQL MySQL 인스턴스와 WordPress database/user를 만든다. | SQL instance 생성은 오래 걸린다. `authorized-networks`는 Cloud Shell에서 MySQL 접속하려고 잠시 여는 값이고, DB user/password는 Kubernetes secret과 맞아야 한다. |
+| Task 5 | 개발 VPC의 WordPress 서브넷에 GKE 클러스터를 만든다. | `--network`, `--subnetwork`, `--enable-ip-alias`가 중요하다. 클러스터가 default VPC에 생기면 이후 WordPress 배포가 랩 의도와 어긋난다. |
+| Task 6 | WordPress Kubernetes manifest와 Cloud SQL proxy secret을 준비한다. | `sed`로 DB 계정 placeholder를 바꾸고, 서비스 계정 key를 `cloudsql-instance-credentials` secret으로 넣는다. secret 이름이 manifest와 맞아야 한다. |
+| Task 7 | WordPress deployment와 LoadBalancer service를 배포한다. | `YOUR_SQL_INSTANCE` 자리에는 Cloud SQL connection name이 들어간다. LoadBalancer 외부 IP는 늦게 생기므로 `kubectl get service`로 기다린다. |
+| Task 8 | WordPress 외부 IP를 대상으로 uptime check를 만든다. | `--resource-labels=host=...,project_id=...`에서 host는 URL이 아니라 IP/hostname 값이다. path와 port도 채점 기준에 들어간다. |
+| Task 9 | 추가 엔지니어에게 프로젝트 접근 권한을 준다. | `--member="user:${USER2_EMAIL}"`의 이메일과 `--role="roles/editor"`가 랩 지시와 일치해야 한다. |
+
 ## 시작 값
 
 ```bash

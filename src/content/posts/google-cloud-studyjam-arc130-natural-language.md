@@ -11,6 +11,15 @@ ARC130은 Natural Language API를 쓰는 랩이다. Cloud Shell에서 API key를
 
 이 랩은 API key 채점이 조금 예민하다. 제한을 건 키보다 기본 이름의 제한 없는 키가 더 잘 잡히는 경우가 있다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | Natural Language API 호출에 사용할 API key를 만든다. | `gcloud services api-keys create`는 key resource를 만들고, `get-key-string`은 실제 호출에 넣을 문자열 key를 꺼낸다. 채점 때문에 display name을 `API key 1`로 맞추는 게 안전하다. |
+| Task 2 | Google Docs Apps Script에서 선택한 문장의 sentiment를 표시한다. | Cloud Shell 명령이 아니라 Docs UI 작업이다. Apps Script 코드의 `var apiKey = "...";` 자리만 실제 key로 바꾸면 된다. |
+| Task 3 | lab-vm에서 `documents:analyzeSyntax`를 호출해 문장 구조와 품사를 분석한다. | 요청 JSON의 `document.type`은 `PLAIN_TEXT`, `encodingType`은 `UTF8`이다. `?key=${API_KEY}`로 API key 인증을 붙인다. |
+| Task 4 | 영어가 아닌 문장으로 entity 분석을 실행한다. | `documents:analyzeEntities`는 언어를 자동 감지한다. 응답 파일을 저장하는 이유는 채점기와 나중 확인을 위해서다. |
+
 ## Task 1. API key 만들기
 
 프로젝트를 맞추고 API를 켠다.

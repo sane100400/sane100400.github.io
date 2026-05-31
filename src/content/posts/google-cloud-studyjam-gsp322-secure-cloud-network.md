@@ -9,6 +9,17 @@ draft: false
 
 GSP322는 열린 방화벽을 닫고, bastion은 IAP로만 접속하게 만들고, juice-shop VM은 HTTP와 내부 SSH만 허용하도록 바꾸는 랩이다. 보안 랩이라 “잘 열기”보다 “불필요하게 열린 걸 지우기”가 더 중요하다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| 리소스 확인 | 기존 bastion, juice-shop VM, 네트워크, 관리 서브넷 CIDR을 찾는다. | `--filter='name~bastion'`처럼 정규식 필터를 써서 환경마다 다른 이름을 자동 탐색한다. `networkInterfaces[0].network.basename()`은 전체 URL에서 네트워크 이름만 뽑는다. |
+| Bastion 정리 | bastion을 켜고 외부 IP를 제거한다. | `delete-access-config`는 VM을 지우는 게 아니라 NIC의 외부 IP 설정만 제거한다. IAP 접속만 허용하려면 이 단계가 필요하다. |
+| 넓은 firewall 삭제 | `0.0.0.0/0`에서 SSH/RDP/ICMP를 여는 기존 규칙을 제거한다. | `jq`로 firewall JSON을 필터링한다. 새로 만들 허용 규칙은 제외하고, 오래된 open access rule만 지우는 게 포인트다. |
+| 태그 적용 | bastion과 juice-shop VM에 서로 다른 target tag를 붙인다. | firewall rule은 VM 이름이 아니라 target tag로 적용된다. 태그가 빠지면 규칙이 있어도 VM에 적용되지 않는다. |
+| 필요한 firewall 생성 | IAP SSH, 외부 HTTP, 관리망 내부 SSH만 허용한다. | IAP SSH source range는 `35.235.240.0/20`이다. juice-shop SSH는 `MGMT_RANGE`에서만 허용해야 public SSH가 열리지 않는다. |
+| 접속 테스트 | IAP로 bastion에 접속한 뒤 내부 IP로 juice-shop SSH를 확인한다. | `--tunnel-through-iap`가 핵심이다. 내부 SSH 테스트는 juice-shop의 internal IP를 사용한다. |
+
 ## 시작 값
 
 ```bash

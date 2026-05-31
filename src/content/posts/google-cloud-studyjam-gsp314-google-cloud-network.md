@@ -9,6 +9,14 @@ draft: false
 
 GSP314는 커스텀 VPC를 만들고, 서로 다른 리전에 서브넷을 두 개 만든 다음, 방화벽 규칙과 VM을 추가하는 랩이다. 태스크는 짧지만 리소스 이름이 랜덤처럼 생겨서 오타가 나기 쉽다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | 자동 subnet mode가 아닌 custom VPC와 두 리전의 서브넷을 만든다. | `--subnet-mode=custom`이면 서브넷을 직접 만들어야 한다. 각 subnet의 `--region`과 `--range`는 나중에 VM 위치와 내부 통신 범위를 결정한다. |
+| Task 2 | SSH, RDP, ICMP 방화벽 규칙을 만든다. | `--network`로 규칙이 붙을 VPC를 지정하고, `--source-ranges`로 허용 출발지를 제한한다. ICMP는 두 서브넷 CIDR만 허용하는 게 포인트다. |
+| Task 3 | 각 서브넷에 테스트 VM을 만들고 내부 통신을 확인한다. | VM의 `--zone`은 subnet의 region 안에 있어야 한다. `--network`와 `--subnet`을 같이 지정해야 default VPC로 들어가지 않는다. |
+
 ## 시작 설정
 
 ```bash

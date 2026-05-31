@@ -9,6 +9,16 @@ draft: false
 
 ARC125는 Cloud Storage를 CLI로 다루는 랩처럼 보이지만, 실제 채점 포인트는 JSON API 사용이다. `gsutil`이나 `gcloud storage`로 같은 결과를 만들어도 채점이 안 될 수 있다. 이 랩에서는 `curl`로 REST API를 호출해야 한다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | Cloud Storage JSON API로 버킷 두 개를 만든다. | `Authorization: Bearer ${TOKEN}`은 OAuth access token 인증이고, `storage/v1/b?project=...` endpoint는 bucket 생성 API다. JSON body의 `name`, `location`, `storageClass`가 버킷 속성을 정한다. |
+| Task 2 | JSON API upload endpoint로 이미지를 객체로 업로드한다. | 일반 metadata API가 아니라 `/upload/storage/v1/...` 경로를 쓴다. `uploadType=media`는 파일 본문만 올리는 방식이고, `name=${OBJECT_NAME}`이 객체 이름이다. |
+| Task 3 | 첫 번째 버킷의 객체를 두 번째 버킷으로 복사한다. | `copyTo` endpoint는 source bucket/object와 destination bucket/object가 URL 경로에 모두 들어간다. 객체가 있는데 채점이 안 되면 `rewriteTo` fallback을 쓴다. |
+| Task 4 | 두 번째 버킷의 객체를 공개 읽기 가능하게 만든다. | ACL endpoint에 `{"entity":"allUsers","role":"READER"}`를 POST한다. Uniform bucket-level access가 켜져 있으면 ACL 방식이 막힐 수 있으니 이 랩에서는 스크립트 흐름을 그대로 따른다. |
+| Task 5 | 첫 번째 버킷의 객체와 버킷을 삭제한다. | 버킷은 비어 있어야 삭제된다. 그래서 객체 DELETE를 먼저 하고 bucket DELETE를 나중에 한다. |
+
 ## 시작 값
 
 ```bash

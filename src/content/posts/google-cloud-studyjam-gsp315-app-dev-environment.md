@@ -9,6 +9,16 @@ draft: false
 
 GSP315는 ARC101과 비슷하게 Cloud Storage 이벤트로 썸네일을 만드는 랩이다. 다만 Eventarc와 서비스 계정 권한이 더 자주 문제를 일으킨다. 스크립트에는 실패한 트리거와 Storage notification을 정리하는 구간까지 들어 있다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | 이미지 업로드를 받을 Cloud Storage 버킷을 만든다. | `gcloud storage buckets create`의 `--location`은 함수 리전과 맞추는 편이 안전하다. 트리거가 같은 리전에서 만들어지기 때문이다. |
+| Task 2 | 썸네일 생성 결과를 알릴 Pub/Sub 토픽을 만든다. | 함수 코드 안의 `topicName` 값과 `TOPIC_NAME`이 같아야 한다. 토픽 이름이 다르면 함수는 성공해도 publish가 실패한다. |
+| Task 3 | Storage 이벤트를 받는 Cloud Run Function을 배포하고, 원본 이미지에서 64x64 썸네일을 만든다. | Eventarc 트리거는 여러 서비스 계정 권한을 필요로 한다. `roles/eventarc.eventReceiver`, `roles/pubsub.publisher`, bucket `roles/storage.objectAdmin`, `--trigger-service-account`를 같이 봐야 한다. |
+| Task 3 troubleshooting | 실패한 배포가 남긴 function, Cloud Run service, Eventarc trigger, Storage notification을 지우고 다시 배포한다. | `|| true`는 삭제 대상이 없어도 계속 진행하기 위한 장치다. `Notification quota exceeded`가 나오면 이 정리 단계가 특히 중요하다. |
+| Task 4 | 이전 클라우드 엔지니어 계정의 프로젝트 권한을 제거한다. | `remove-iam-policy-binding`은 member와 role이 정확히 일치해야 제거된다. 제거 후 `get-iam-policy --flatten`으로 계정이 남았는지 확인한다. |
+
 ## 시작 값
 
 ```bash

@@ -9,6 +9,16 @@ draft: false
 
 ARC106은 Pub/Sub로 들어온 메시지를 Dataflow 템플릿으로 BigQuery 테이블에 쓰는 랩이다. 리소스는 많지만 연결은 한 방향이다. 버킷을 만들고, BigQuery 테이블을 만들고, Pub/Sub 토픽을 만든 뒤 Dataflow job을 띄우면 된다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | Dataflow job이 임시 파일을 둘 Cloud Storage 버킷을 만든다. | `--location="$REGION"`은 Dataflow 리전과 맞추고, `--uniform-bucket-level-access`는 객체별 ACL보다 버킷 IAM으로 권한을 관리하겠다는 뜻이다. |
+| Task 2 | Pub/Sub 메시지가 적재될 BigQuery dataset과 table을 만든다. | `bq --location=US mk --dataset`은 dataset 위치를 정한다. 테이블 스키마 `data:STRING`은 Pub/Sub 메시지 payload를 문자열 칼럼에 넣기 위한 최소 구조다. |
+| Task 3 | Dataflow가 읽을 Pub/Sub 토픽과 pull subscription을 만든다. | 토픽 이름은 랩 값과 같아야 한다. subscription은 채점 자체보다 확인용에 가깝지만, 콘솔에서 기본 subscription을 만든 흐름과 맞춰준다. |
+| Task 4 | Google 제공 Dataflow 템플릿으로 Pub/Sub to BigQuery streaming job을 실행한다. | `inputTopic`은 `projects/PROJECT/topics/TOPIC` 전체 경로가 필요하고, `outputTableSpec`은 `PROJECT:DATASET.TABLE` 형식이다. `--staging-location`은 아까 만든 버킷의 `temp` prefix를 쓴다. |
+| Task 5 | 테스트 메시지를 발행하고 BigQuery에 실제 행이 들어갔는지 확인한다. | streaming이라 바로 조회되지 않을 수 있다. `sleep 90`은 채점기를 기다리는 시간이 아니라 Dataflow가 BigQuery에 쓰는 시간을 주는 것이다. |
+
 ## 랩 값 확인
 
 스크립트에는 아래 값들이 모여 있다. 랩 화면에서 새로 받은 값으로 바꿔 넣는다.

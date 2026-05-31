@@ -9,6 +9,17 @@ draft: false
 
 GSP510은 GKE 랩이다. 클러스터를 만들고 Managed Prometheus를 켠 뒤, 일부러 깨진 앱을 배포해 로그 기반 메트릭과 알림을 만들고, 마지막에는 코드를 컨테이너 이미지로 빌드해서 다시 배포한다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | GKE 클러스터를 만들고 kubectl이 해당 클러스터를 보게 한다. | `--release-channel`, `--num-nodes`, autoscaling 옵션은 클러스터 속성이다. `get-credentials`를 해야 로컬 kubeconfig가 바뀌고 `kubectl` 명령이 클러스터에 붙는다. |
+| Task 2 | Managed Prometheus를 켜고 metrics를 노출하는 샘플 Pod와 PodMonitoring을 배포한다. | `PodMonitoring`은 어떤 Pod의 어떤 port를 얼마나 자주 scrape할지 정의한다. `endpoints.port`는 container port name과 맞아야 한다. |
+| Task 3 | hello-app deployment를 배포하되, 일부러 잘못된 image 상태를 만든다. | 이 단계의 `InvalidImageName`은 실패가 아니라 다음 로그 기반 메트릭을 만들기 위한 재료다. 바로 고치지 않는 게 중요하다. |
+| Task 4 | image error warning 로그를 세는 log-based metric과 alert policy를 만든다. | log filter는 `resource.type="k8s_pod"`와 `severity=WARNING`을 본다. alert policy의 metric type은 `logging.googleapis.com/user/pod-image-errors`다. |
+| Task 5 | deployment image를 정상 샘플 이미지로 바꿔 앱을 다시 배포한다. | `perl` 치환은 manifest의 `<todo>` 이미지를 실제 image URI로 바꾼다. `rollout status`는 새 ReplicaSet이 정상 배포됐는지 기다린다. |
+| Task 6 | 앱 코드를 수정해 v2 이미지를 빌드하고 Artifact Registry에 push한 뒤 GKE에 배포한다. | `IMAGE_URI`는 `LOCATION-docker.pkg.dev/PROJECT/REPO/IMAGE:TAG` 형식이다. `gcloud auth configure-docker`를 해야 Docker push 인증이 된다. LoadBalancer service의 external IP는 늦게 붙을 수 있다. |
+
 ## 시작 값
 
 ```bash

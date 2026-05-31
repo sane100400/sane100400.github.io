@@ -9,6 +9,16 @@ draft: false
 
 GSP338은 Cloud Monitoring과 Cloud Logging을 같이 다루는 랩이다. VM startup script에서 커스텀 메트릭을 쓰게 만들고, 로그 기반 메트릭을 만든 뒤, Media Dashboard와 alert policy에 연결한다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | Cloud Monitoring/Logging을 켜고 기본 dashboard가 있는지 확인한다. | `Media_Dashboard`는 랩이 미리 만들어둔 리소스다. 이 dashboard를 나중에 update하므로 이름을 먼저 확인한다. |
+| Task 2 | VM startup script가 custom metric을 쓰도록 placeholder를 실제 값으로 바꾼다. | Monitoring time series의 `resource.labels.instance_id`, `zone`, `project_id`가 실제 VM과 맞아야 한다. VM 서비스 계정에는 `roles/monitoring.metricWriter`가 필요하다. |
+| Task 3 | 4K/8K 업로드 로그를 세는 log-based metric을 만든다. | `filter`는 로그를 고르는 조건이고, `labelExtractors`는 정규식으로 `file_format` 라벨을 뽑는다. metric 이름이 `logging.googleapis.com/user/...` 경로의 끝이 된다. |
+| Task 4 | Media Dashboard에 queue size와 upload rate 차트를 추가한다. | dashboard update는 기존 리소스를 JSON으로 읽어 수정하는 방식이다. chart의 metric filter와 `perSeriesAligner`가 잘못되면 차트는 생겨도 채점이 안 될 수 있다. |
+| Task 5 | log-based metric rate가 threshold를 넘으면 울리는 alert policy를 만든다. | `thresholdValue`는 숫자여야 하고, filter의 `resource.type`은 실제 time series resource와 맞아야 한다. 환경에 따라 `cloud_function` 대신 `cloud_run_revision`이 필요할 수 있다. |
+
 ## 시작 값
 
 ```bash

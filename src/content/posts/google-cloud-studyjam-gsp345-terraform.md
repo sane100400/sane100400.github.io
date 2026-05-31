@@ -11,6 +11,18 @@ GSP345는 Terraform 랩이다. 기존 VM을 Terraform state로 가져오고, rem
 
 이 랩은 손으로 콘솔 리소스를 고치면 state와 코드가 어긋나기 쉽다. 가급적 스크립트의 태스크 블록을 그대로 실행하는 편이 좋다.
 
+## 과제별 이해 포인트
+
+| 과제 | 하는 일 | 명령어에서 볼 포인트 |
+|---|---|---|
+| Task 1 | Terraform 프로젝트 구조와 provider 설정을 만든다. | `modules/instances`, `modules/storage`처럼 모듈 폴더를 나눈다. `terraform init`은 provider를 내려받고 현재 디렉터리를 Terraform 작업 폴더로 초기화한다. |
+| Task 2 | 이미 존재하는 Compute Engine VM 2대를 Terraform state로 가져온다. | `terraform import`는 리소스를 새로 만드는 명령이 아니다. 코드에 resource block이 먼저 있어야 하고, import ID는 `projects/PROJECT/zones/ZONE/instances/NAME` 형식이다. |
+| Task 3 | Cloud Storage bucket을 만들고 Terraform remote backend로 사용한다. | backend 설정을 추가한 뒤 `terraform init -migrate-state -force-copy`로 local state를 GCS backend로 옮긴다. bucket은 state 파일을 저장하는 인프라다. |
+| Task 4 | 새 VM을 Terraform 코드에 추가해 apply한다. | Terraform에서는 코드가 원하는 상태다. resource block을 추가하고 `apply`하면 새 VM이 생긴다. 콘솔에서 직접 만들면 state에 안 들어간다. |
+| Task 5 | Terraform 코드에서 리소스를 제거해 실제 인프라에서도 없앤다. | destroy 명령이 아니라 코드 변경 후 `apply`로 상태를 맞춘다. state에 있던 리소스가 코드에서 사라지면 Terraform은 삭제 계획을 만든다. |
+| Task 6 | Terraform Registry의 network module로 VPC를 만든다. | 외부 module을 쓰면 `terraform init -upgrade`가 필요하다. module input인 `project_id`, `network_name`, subnet 설정이 실제 리소스 이름이 된다. |
+| Task 7 | Terraform으로 firewall rule을 만든다. | firewall resource도 코드로 관리한다. `network = module.vpc.network_name`처럼 module output을 참조해서 앞에서 만든 VPC에 규칙을 붙인다. |
+
 ## 시작 값
 
 ```bash

@@ -16,17 +16,17 @@ draft: false
 - bounded-buffer, readers-writers, dining philosophers 문제
 - 동기화 도구를 조합할 때 무엇을 분리해서 봐야 하는지
 - Linux, Windows 같은 실제 커널의 동기화 선택
-- POSIX mutex, semaphore, condition variable 사용 감각
+- POSIX ==mutex==, semaphore, condition variable 사용 감각
 
 ## 생산자-소비자 문제
 
 bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터를 꺼내는 구조다. 여기에는 두 종류의 조건이 있다. 버퍼에 빈 칸이 있어야 생산자가 넣을 수 있고, 버퍼에 데이터가 있어야 소비자가 꺼낼 수 있다. 동시에 버퍼 자료구조 자체는 한 번에 하나만 수정해야 한다.
 
-그래서 empty, full, mutex 같은 역할을 분리한다. 빈 칸 수를 세는 일과 버퍼 내부를 보호하는 일은 서로 다른 문제다. 이 분리부터 잡아야 동기화 예제가 덜 헷갈린다.
+그래서 ==empty==, ==full==, mutex 같은 역할을 분리한다. 빈 칸 수를 세는 일과 버퍼 내부를 보호하는 일은 서로 다른 문제다. 이 분리부터 잡아야 동기화 예제가 덜 헷갈린다.
 
 ![동기화 예제 - 생산자-소비자 구조](/os-concepts/diagrams/os-07-synchronization-examples.png)
 
-> 그림 읽기: bounded buffer에서는 빈 칸 수, 찬 칸 수, 버퍼 배열 보호가 서로 다른 문제다. empty, full, mutex를 섞지 않고 따로 보면 코드가 훨씬 명확해진다.
+> 다이어그램: bounded buffer에서는 빈 칸 수, 찬 칸 수, 버퍼 배열 보호가 서로 다른 문제다. empty, full, mutex를 섞지 않고 따로 보면 코드가 훨씬 명확해진다.
 
 ## Readers-Writers 문제
 
@@ -36,7 +36,7 @@ bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터
 
 ![동기화 예제 - Readers-Writers 정책](/os-concepts/diagrams/os-07-synchronization-examples-detail.png)
 
-> 그림 읽기: reader는 여러 명이 동시에 들어갈 수 있지만 writer는 단독 접근이 필요하다. 어떤 쪽을 우선하느냐에 따라 starvation 위험도 달라진다.
+> 다이어그램: reader는 여러 명이 동시에 들어갈 수 있지만 writer는 단독 접근이 필요하다. 어떤 쪽을 우선하느냐에 따라 starvation 위험도 달라진다.
 
 ## Dining Philosophers가 보여 주는 것
 
@@ -46,9 +46,9 @@ bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터
 
 ## 실제 커널에서는 상황별 도구를 고른다
 
-커널은 일반 응용 프로그램보다 제약이 많다. 인터럽트 문맥에서는 잠들 수 없고, 멀티코어에서는 같은 커널 자료구조를 여러 CPU가 동시에 건드릴 수 있다. 그래서 짧은 임계 구역에는 spinlock, 잠들 수 있는 경로에는 mutex나 semaphore, 단순 카운터에는 atomic 연산처럼 상황에 맞는 도구를 쓴다.
+커널은 일반 응용 프로그램보다 제약이 많다. 인터럽트 문맥에서는 잠들 수 없고, 멀티코어에서는 같은 커널 자료구조를 여러 CPU가 동시에 건드릴 수 있다. 그래서 짧은 임계 구역에는 ==spinlock==, 잠들 수 있는 경로에는 mutex나 semaphore, 단순 카운터에는 atomic 연산처럼 상황에 맞는 도구를 쓴다.
 
-동기화 예제를 공부할 때는 정답 코드를 외우기보다, 어떤 상태를 보호하고 어떤 조건을 기다리는지 분리해서 보는 편이 오래 간다.
+동기화 예제는 정답 코드를 외우기보다, 어떤 상태를 보호하고 어떤 조건을 기다리는지 분리해서 봐야 오래 남는다.
 
 ## 예시: 생산자-소비자 버퍼를 손으로 따라가면
 
@@ -95,3 +95,9 @@ bounded-buffer 문제는 생산자가 데이터를 넣고 소비자가 데이터
 ## 이어지는 내용
 
 동기화 도구를 잘못 조합하면 프로세스들이 서로를 영원히 기다릴 수 있다. 8장은 교착 상태를 정리한다.
+
+## 핵심 요약
+
+- 생산자-소비자 문제는 빈 칸 수, 찬 칸 수, 버퍼 보호를 분리해서 봐야 한다.
+- Readers-Writers 문제는 읽기 동시성과 쓰기 일관성 사이의 균형을 다룬다.
+- Dining Philosophers는 둘 이상의 자원을 잡는 순서가 교착 상태로 이어질 수 있음을 보여 준다.

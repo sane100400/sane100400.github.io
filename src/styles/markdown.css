@@ -102,6 +102,19 @@
         }
     }
 
+    mark {
+        @apply rounded-md px-1 py-0.5 font-semibold text-black/90 dark:text-white;
+        background:
+            linear-gradient(
+                to top,
+                color-mix(in oklch, var(--primary) 34%, transparent) 0 55%,
+                transparent 55% 100%
+            );
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+        text-shadow: none;
+    }
+
     blockquote {
         @apply not-italic border-transparent relative;
         font-weight: inherit;

@@ -1,54 +1,54 @@
 ---
 title: "공룡책 운영체제 정리 05: CPU 스케줄링"
 published: 2026-05-26
-description: "Operating System Concepts 10판 Ch.05 CPU 스케줄링 책 흐름 기반 설명 정리"
+description: "Operating System Concepts 10판 Ch.05 CPU 스케줄링 정리"
 tags: [Operating System, OS, 공룡책, CS]
 category: "Computer Science"
 draft: false
 ---
 
-`Operating System Concepts` 10판 Chapter 5, **CPU Scheduling**를 블로그용으로 다시 풀어 쓴 정리다.
+`Operating System Concepts` 10판 Chapter 5, **CPU Scheduling** 정리다.
 
-원서 기준 PDF page 266 부근에서 시작하는 장의 흐름을 따라가되, 책 문장을 옮기지 않고 내 말로 설명했다. 다이어그램은 핵심 흐름만 직접 그려 PNG로 넣었다.
+공룡책 10판 기준 PDF p.266 근처에서 시작한다. CPU burst와 I/O burst가 섞인 실행 패턴부터 평균 대기 시간, 응답 시간, 처리량 같은 평가 기준까지 차례로 정리한다.
 
-## 이 장에서 먼저 잡을 것
+## 먼저 볼 부분
 
 - CPU burst와 I/O burst가 섞인 실행 패턴
 - 평균 대기 시간, 응답 시간, 처리량 같은 평가 기준
 - FCFS, SJF, Priority, RR, MLFQ의 선택 기준
 - 멀티코어와 실시간 스케줄링에서 추가로 생기는 문제
 
-## 책 흐름대로 이해하기
-
-### 스케줄링은 ready queue의 선택 문제
+## 스케줄링은 ready queue의 선택 문제
 
 프로세스는 계속 CPU만 쓰지 않는다. 잠깐 계산하고 I/O를 기다렸다가 다시 계산하는 흐름을 반복한다. CPU 스케줄러는 ready 상태의 프로세스 중 하나를 골라 CPU를 넘긴다. 디스패처는 실제 문맥 교환과 사용자 모드 복귀를 수행한다.
 
 스케줄링은 성능 목표에 따라 답이 달라진다. 서버는 처리량을 중시할 수 있고, 대화형 시스템은 응답 시간을 중시한다. 배치 작업은 평균 대기 시간이 중요하고, 실시간 시스템은 마감 시간 준수가 더 중요하다.
 
-### 기본 알고리즘의 성격
+## 기본 알고리즘의 성격
 
 FCFS는 먼저 온 작업을 먼저 처리한다. 단순하지만 긴 작업이 앞에 있으면 뒤의 짧은 작업들이 오래 기다리는 convoy effect가 생긴다. SJF는 다음 CPU burst가 가장 짧은 작업을 먼저 실행해 평균 대기 시간을 줄이지만, 실제 시스템에서는 다음 burst를 정확히 알 수 없다.
 
 Round Robin은 시간 할당량을 두고 돌아가며 실행한다. 할당량이 너무 길면 FCFS처럼 되고, 너무 짧으면 문맥 교환 비용이 커진다. 그래서 RR은 알고리즘 이름보다 time quantum 선택이 중요하다.
 
-### 우선순위와 기아 문제
+## 우선순위와 기아 문제
 
 우선순위 스케줄링은 중요한 작업을 먼저 실행할 수 있게 한다. 하지만 낮은 우선순위 작업이 계속 밀리는 starvation이 생길 수 있다. aging은 오래 기다린 작업의 우선순위를 점차 올려 이 문제를 줄인다.
 
 Multilevel queue와 multilevel feedback queue는 작업 성격에 따라 큐를 나누고, 실행 행동에 따라 큐를 이동시킨다. 짧고 상호작용적인 작업은 빠르게 반응하게 하고, CPU를 오래 쓰는 작업은 낮은 큐로 내려보내는 식이다.
 
-### 멀티코어와 실시간
+## 멀티코어와 실시간
 
 코어가 여러 개면 어느 작업을 실행할지만이 아니라 어느 코어에서 실행할지도 정해야 한다. 이전에 실행된 코어의 캐시를 활용하려면 processor affinity가 유리하다. 동시에 부하 균형도 맞춰야 하므로 스케줄러의 판단이 복잡해진다.
 
 실시간 스케줄링에서는 평균 응답보다 deadline이 중요하다. Rate-monotonic은 주기가 짧은 작업에 높은 우선순위를 주고, EDF는 가장 가까운 마감 시간을 가진 작업을 먼저 실행한다. 여기서 실시간은 빠르다는 뜻이 아니라 시간 제약을 예측 가능하게 지킨다는 뜻이다.
 
-## 핵심 다이어그램
+## 다이어그램
 
 ![CPU 스케줄링 - CPU 스케줄링 위치](/os-concepts/diagrams/os-05-cpu-scheduling.png)
 
-## 핵심 개념 정리
+![CPU 스케줄링 - 스케줄링 평가 기준](/os-concepts/diagrams/os-05-cpu-scheduling-detail.png)
+
+## 용어 정리
 
 ### CPU 스케줄러
 
@@ -85,12 +85,12 @@ Multilevel queue와 multilevel feedback queue는 작업 성격에 따라 큐를 
 - 주의: 실시간은 단순히 빠르다는 뜻이 아니다.
 - 키워드: `deadline`, `EDF`
 
-## 헷갈리기 쉬운 지점
+## 조심할 부분
 
 - SJF가 이론적으로 좋다는 말은 다음 CPU burst를 알고 있다는 가정 위에 있다.
 - Round Robin의 품질은 시간 할당량 선택에 크게 좌우된다.
 - 실시간 시스템은 고성능 시스템과 같은 말이 아니다.
 
-## 다음 장과 연결
+## 이어지는 내용
 
 스케줄링으로 실행 순서가 섞이면 공유 데이터 접근 순서도 섞인다. 6장은 이 문제를 동기화로 해결한다.

@@ -1,15 +1,15 @@
 ---
 title: "공룡책 운영체제 정리 시리즈"
 published: 2026-05-31
-description: "Operating System Concepts 10판을 책 흐름대로 풀어 쓴 운영체제 정리 시리즈"
+description: "Operating System Concepts 10판 운영체제 정리 시리즈"
 tags: [Operating System, OS, 공룡책, CS]
 category: "Computer Science"
 draft: false
 ---
 
-`Operating System Concepts` 10판, 흔히 말하는 공룡책을 블로그에서 다시 읽기 좋게 정리한 시리즈다. 처음 올린 버전은 키워드 메모에 가까웠기 때문에, 이 버전에서는 각 장의 흐름을 따라가며 개념이 왜 다음 개념으로 이어지는지 설명하는 쪽으로 보강했다.
+`Operating System Concepts` 10판, 흔히 말하는 공룡책을 읽으며 정리한 운영체제 글 모음이다. 처음 올린 버전은 키워드 메모에 가까워서, 이번에는 각 장에서 어떤 문제가 나오고 다음 개념으로 어떻게 이어지는지 조금 더 자세히 적었다.
 
-책의 문장이나 그림을 그대로 옮기지 않고, 장별 주제와 설명 순서를 바탕으로 내 블로그 버전으로 다시 썼다. 그림은 책 그림 참조가 아니라 핵심 관계만 직접 다이어그램으로 그려 PNG 파일로 넣었다.
+책의 문장과 그림을 그대로 옮기지는 않았다. 장별 주제와 설명 순서를 바탕으로 다시 썼고, 그림은 핵심 관계를 직접 다이어그램으로 그려 PNG 파일로 넣었다.
 
 ## 읽는 순서
 

@@ -1,54 +1,54 @@
 ---
 title: "공룡책 운영체제 정리 21: Windows 시스템"
 published: 2026-05-10
-description: "Operating System Concepts 10판 Ch.21 Windows 시스템 책 흐름 기반 설명 정리"
+description: "Operating System Concepts 10판 Ch.21 Windows 시스템 정리"
 tags: [Operating System, OS, 공룡책, CS]
 category: "Computer Science"
 draft: false
 ---
 
-`Operating System Concepts` 10판 Chapter 21, **Windows**를 블로그용으로 다시 풀어 쓴 정리다.
+`Operating System Concepts` 10판 Chapter 21, **Windows** 정리다.
 
-원서 기준 PDF page 963 부근에서 시작하는 장의 흐름을 따라가되, 책 문장을 옮기지 않고 내 말로 설명했다. 다이어그램은 핵심 흐름만 직접 그려 PNG로 넣었다.
+공룡책 10판 기준 PDF p.963 근처에서 시작한다. Windows NT 계열의 설계 목표와 계층 구조부터 사용자 모드 서브시스템과 커널 모드 구성 요소까지 차례로 정리한다.
 
-## 이 장에서 먼저 잡을 것
+## 먼저 볼 부분
 
 - Windows NT 계열의 설계 목표와 계층 구조
 - 사용자 모드 서브시스템과 커널 모드 구성 요소
 - Executive, Kernel, HAL의 역할
 - 객체 관리자, 보안 참조 모니터, NTFS
 
-## 책 흐름대로 이해하기
-
-### Windows를 구조로 보기
+## Windows를 구조로 보기
 
 Windows는 GUI만으로 이해하기 어렵다. NT 계열 Windows는 사용자 모드와 커널 모드를 나누고, 커널 모드 안에 Executive, Kernel, device driver, HAL 같은 구성 요소를 둔다. 사용자 모드에는 Win32 API와 서비스, 환경 서브시스템이 있다.
 
 이 구조의 목표는 호환성, 보안, 이식성, 성능을 함께 달성하는 것이다. 앞 장의 Linux와 비교하면 같은 운영체제 문제를 다른 용어와 구조로 해결한다는 점이 보인다.
 
-### Executive와 Kernel
+## Executive와 Kernel
 
 Executive는 프로세스, 스레드, 메모리, I/O, 객체, 보안 같은 고수준 운영체제 서비스를 제공한다. Kernel은 더 낮은 수준에서 스레드 스케줄링, 인터럽트와 예외 처리, 동기화 primitive 같은 핵심 기능을 담당한다.
 
 HAL은 하드웨어 차이를 감추는 계층이다. 커널과 드라이버가 특정 보드나 장치 세부 사항에 덜 묶이도록 돕는다. 이 구분은 이식성과 유지보수에 중요하다.
 
-### 객체와 핸들
+## 객체와 핸들
 
 Windows는 파일, 프로세스, 스레드, 이벤트, 세마포어 같은 커널 자원을 객체로 다룬다. 객체 관리자는 객체 이름, 참조 카운트, 핸들 테이블을 관리한다. 사용자 프로그램은 커널 객체를 직접 가리키는 포인터가 아니라 핸들을 통해 접근한다.
 
 핸들 기반 모델은 보호와 자원 회수에 유리하다. 프로세스마다 핸들 테이블이 있고, 커널은 핸들을 통해 접근 권한을 확인할 수 있다.
 
-### 보안과 파일 시스템
+## 보안과 파일 시스템
 
 보안 참조 모니터는 접근 토큰과 보안 설명자를 이용해 객체 접근을 검사한다. 사용자가 로그인하면 토큰에 SID와 권한 정보가 담기고, 객체에는 누가 무엇을 할 수 있는지 나타내는 보안 설명자가 붙는다. 접근 요청은 이 정보를 비교해 허용되거나 거부된다.
 
 NTFS는 Windows의 대표 파일 시스템으로 MFT, 권한, 저널링, 압축, 링크 등을 제공한다. Windows 사례를 보면 보호, 파일 시스템, 객체 모델이 서로 분리된 주제가 아니라 하나의 실행 환경 안에서 연결되어 있음을 알 수 있다.
 
-## 핵심 다이어그램
+## 다이어그램
 
 ![Windows 시스템 - Windows 커널 모드 구조](/os-concepts/diagrams/os-21-windows.png)
 
-## 핵심 개념 정리
+![Windows 시스템 - Windows 객체 접근 검사](/os-concepts/diagrams/os-21-windows-detail.png)
+
+## 용어 정리
 
 ### Windows 구조
 
@@ -85,12 +85,12 @@ NTFS는 Windows의 대표 파일 시스템으로 MFT, 권한, 저널링, 압축,
 - 주의: 저널링은 모든 사용자 데이터를 완전히 보존한다는 뜻이 아니다.
 - 키워드: `NTFS`, `MFT`
 
-## 헷갈리기 쉬운 지점
+## 조심할 부분
 
 - Windows의 Kernel과 Executive는 같은 말이 아니다. Executive가 더 높은 수준의 서비스를 포함한다.
 - 핸들은 사용자 공간 포인터가 아니라 커널 객체를 참조하기 위한 값이다.
 - NTFS의 저널링은 메타데이터 복구를 돕지만 모든 사용자 데이터 손실을 막는 보장은 아니다.
 
-## 다음 장과 연결
+## 이어지는 내용
 
 21장까지 보면 공룡책의 큰 흐름은 끝난다. 이후에는 각 장의 연습 문제나 실제 Linux/Windows 관찰로 이해를 굳히는 편이 좋다.
